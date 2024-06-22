@@ -54,7 +54,6 @@ main{
 }
 
 .icons > span {
-    /* border: 2px solid white; */
     height: 16%;
     width: 16%;
     border-radius: 50%;
@@ -67,10 +66,13 @@ main{
 }
 
 .symbols {
-    /* font-weight: 400; */
-    color:rgb(0, 161, 0) ;
+    color:rgb(0, 161, 0);
 }
 
 .icons > .darkGrey {
     background-color: rgb(39, 39, 39);
+}
+
+.icons > span > i {
+    font-size: 1.7rem;
 }
