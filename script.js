@@ -1,100 +1,99 @@
 const outputValue = document.querySelector('#outputValue');
 const icons = document.querySelector('.icons');
-const span = document.querySelectorAll('span');
+const spans = document.querySelectorAll('span');
 const inputValues = document.querySelector('#inputValues');
-let arr1 = [];
-// console.log('arr:',arr1);
-// let prev = inputValues.value;
-// let show;
+let currentValue = '0';
+let previousValue = '';
+let operation = null;
+// let result;
 
-let value = [];
-
-span.forEach(span => {
-    span.addEventListener('click', (e)=> {
-
-        let currentValue = e.target.innerText;
-        console.log('currentVal: ',currentValue);
-
-        value.push(currentValue);
+spans.forEach(span => {
+    span.addEventListener('click', () => {
+        const value = span.textContent;
         console.log(value);
 
-        inputValues.innerText = value.join('');
-
-        let currentValueString = String(value.join(''));
-        console.log('str', currentValueString);
-
-        let plus = '+';
-        let index = currentValueString.indexOf(plus);
-
-        let beforeValue = currentValueString.substring(0, index).trim();    
-        let afterValue = currentValueString.substring(index + plus.length).trim();
-        console.log('Before: ', beforeValue);
-        console.log('After: ', afterValue);
-
-        if(currentValue === '+'){
-
-            function addition( ) {
-                
-        
-            }
-
-            addition(); 
-        }
-
-
-        if (e.target.classList[0] === 'plus') {
-            // inputValues.style.color = 'green';
-            inputValues.style.padding = '2px';
-
-            // plus();
-
-        } else if (e.target.classList[0] === 'minus') {
-            inputValues.style.padding = '2px';
-
-            minus();
-
-        } else if (e.target.classList[0] === 'multiply') {
-            inputValues.style.padding = '2px';
-
-            multiply();
-
-        } else if (e.target.classList[0] === 'divide') {
-            inputValues.style.padding = '2px';
-
-            divide();
-
+        if (!isNaN(value)) {
+            // If user presses a number
+            handleNumber(value);
+        } else if (value === 'C') {
+            // If user pressed clear
+            clear();
+        } else if (value === '=') {
+            // To calculate if user presses equal to 
+            calculate();
         } else {
-            decimal();
+            // If user pressed any symbol (+, -, *, /)
+            handleOperation();
         }
-        
+
+        updateDisplay();
 
     });
-    
 });
 
-function plus(params) {
-    // alert('plus clicked')
+function handleNumber(value) {
+    if (currentValue === '0') {
+        currentValue = value
+    } else {
+        currentValue += value;
+    }
+}
+
+function handleOperation(value) {
+    if (operation) {
+        calculate();
+    }
+    console.log('symbol clicked');
+    previousValue = currentValue;
+    currentValue = '0';
+    operation = value;
+
+}
+
+function calculate() {
+    console.log('Previous', previousValue);
+    console.log('current', currentValue);
+    let result;
+
+
+    switch (operation) {
+        case '+':
+            result = parseFloat(previousValue) + parseFloat(currentValue);
+            console.log('plus clicked');
+            break;
+
+        case '-':
+            result = parseFloat(previousValue) - parseFloat(currentValue);
+            break;
+
+        case '*':
+            result = parseFloat(previousValue) * parseFloat(currentValue);
+            break;
+
+        case '/':
+            result = parseFloat(previousValue) / parseFloat(currentValue);
+            break;
     
-}
+        default:
+            break;
+    }
 
-function minus(params) {
-    // alert('minus clicked')
-}
+    // currentValue = result.toString();
+    console.log('The result is ', result);
+    operation = null;
+    previousValue = '';
 
-function multiply(params) {
-    // alert('multiply clicked')
-}
-
-function divide(params) {
-    // alert('divide clicked')
-}
-
-function decimal(params) {
-    // alert('decimal clicked')
 }
 
 
-document.querySelector('#cancel').addEventListener('click', () => {
-    location.reload();
-})
+function updateDisplay(value) {
+    inputValues.textContent = currentValue;
+    // outputValue.textContent = result;
+
+}
+
+
+// document.querySelector('#cancel').addEventListener('click', () => {
+//     location.reload();
+// });
 
