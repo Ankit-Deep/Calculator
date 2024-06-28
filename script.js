@@ -5,7 +5,7 @@ const inputValues = document.querySelector('#inputValues');
 let currentValue = '0';
 let previousValue = '';
 let operation = null;
-// let result;
+let result = 0;
 
 spans.forEach(span => {
     span.addEventListener('click', () => {
@@ -15,15 +15,20 @@ spans.forEach(span => {
         if (!isNaN(value)) {
             // If user presses a number
             handleNumber(value);
+
         } else if (value === 'C') {
             // If user pressed clear
             clear();
+
         } else if (value === '=') {
             // To calculate if user presses equal to 
             calculate();
+
         } else {
             // If user pressed any symbol (+, -, *, /)
-            handleOperation();
+            // calculate();
+            // operation = value;
+            handleOperation(value);
         }
 
         updateDisplay();
@@ -39,27 +44,47 @@ function handleNumber(value) {
     }
 }
 
+// console.log('operation in global: ', operation);
+
+
 function handleOperation(value) {
+    operation = value;
+    // console.log('operation in handleOperatioon: ', operation);
     if (operation) {
         calculate();
     }
-    console.log('symbol clicked');
+    // console.log('symbol clicked');
+
     previousValue = currentValue;
     currentValue = '0';
-    operation = value;
+    // operation = value;
 
 }
 
 function calculate() {
     console.log('Previous', previousValue);
     console.log('current', currentValue);
-    let result;
+    // console.log('operation:', operation);
 
+    previousValue = parseFloat(previousValue)
+    currentValue = parseFloat(currentValue)
+    console.log('Previous after parse', previousValue);
+    console.log('current after parse', currentValue);
+
+
+
+    // result;
 
     switch (operation) {
         case '+':
-            result = parseFloat(previousValue) + parseFloat(currentValue);
-            console.log('plus clicked');
+            // result = previousValue;
+            result = parseFloat(result);
+            console.log('result', result);
+            result = result + currentValue;
+            // previousValue = result;
+            // currentValue = '';
+            // console.log('result in plus:', result);
+            // console.log('plus clicked');
             break;
 
         case '-':
@@ -77,18 +102,17 @@ function calculate() {
         default:
             break;
     }
-
+    
     // currentValue = result.toString();
-    console.log('The result is ', result);
+    // console.log('The result is ', result);
     operation = null;
     previousValue = '';
-
 }
 
 
 function updateDisplay(value) {
     inputValues.textContent = currentValue;
-    // outputValue.textContent = result;
+    outputValue.textContent = result;
 
 }
 
